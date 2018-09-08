@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-path = 'input-video/fire1.mp4'
+path = 'input-video/0-0.mp4'
 
 cap = cv2.VideoCapture(path)
 fgbg = cv2.createBackgroundSubtractorMOG2()
