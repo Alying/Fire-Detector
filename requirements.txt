@@ -1,2 +1,3 @@
+docusign_esign>=1.0
 Flask>=0.12
 twilio>=6.16
