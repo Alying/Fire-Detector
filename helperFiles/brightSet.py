@@ -12,9 +12,14 @@ def findMaxBrightness(frame,image,minTup,rad):
 	#image = orig.copy()
 	#cv2.circle(res, maxLoc, rad, (255, 0, 0), 2)
 	if not (xMin == float("inf") or yMin == float("inf")):
-        	newLoc =  (int(maxLoc[0]+xMin),int(maxLoc[1]+yMin))
+        	newLoc =  (int(maxLoc[0]+yMin),int(maxLoc[1]+xMin))
 	else:
 		newLoc = maxLoc
-	cv2.circle(res1, newLoc, rad, (255, 0, 0), 2)
+
+
+	min_thresh = (min_val+1e-6)*1.5
+	match_locations = np.where()
+
+	cv2.circle(res1, newLoc, rad, (0, 255, 0), 2)
 
 	return res1

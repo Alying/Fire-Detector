@@ -2,18 +2,25 @@ from helperFiles import brightSet
 import numpy as np
 import cv2
 
-path = 'input-video/0-0.mp4'
-#path = 'input-video/0-1.mp4'
+#path = 'input-video/0-0.mp4'
+path = 'input-video/0-1.mp4'
 
+outPath = 'test.avi'
 
 #path = 'input-video/1-0.mp4'
 
 rad = 41
 cntAreaMin = 30
+#cntAreaMin = 20
 #kernel = np.ones((3,3),np.uint8)
+
+#timeRefresh = 2000
+timeRefresh = 200
 
 cap = cv2.VideoCapture(path)
 fgbg = cv2.createBackgroundSubtractorMOG2()
+
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
 xMin = float('inf')
 yMin = float('inf')
@@ -21,18 +28,25 @@ xMax = float('-inf')
 yMax = float('-inf')
 
 i = 0
+
+firstFrame = True
+
 while True:
     ret, frame = cap.read()
 
     if frame is None:
 	break
 
+    if firstFrame:
+	out = cv2.VideoWriter(outPath, fourcc, 20.0, (frame.shape[1],frame.shape[0]))
+	firstFrame = False
     fgmask = fgbg.apply(frame)
-    #fgmask = cv2.erode(fgmask,kernel,iterations = 1)
+    #fgmask = cv2.morphologyEx(fgmask,cv2.MORPH_OPEN,kernel)
 
     mask, contours, hierarchy = cv2.findContours(fgmask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
  
-    if i%20 == 0:
+    if i%timeRefresh == 0:
+	#print 'Refresh'
 	xMin = float('inf')
 	yMin = float('inf')
 	xMax = float('-inf')
@@ -54,7 +68,7 @@ while True:
 		if Y < yMin:
 			yMin = Y
 
-		cv2.rectangle(frame,(X,Y),(X+W,Y+H),(0,255,0),2)
+		#cv2.rectangle(frame,(X,Y),(X+W,Y+H),(0,255,0),2)
 
 
     if len(contours) > 0 and xMin < xMax:
@@ -66,9 +80,11 @@ while True:
     brightFrame = brightSet.findMaxBrightness(frame,cropFrame,(xMin,yMin),41)
 
     cv2.imshow('frame',frame)
-    #cv2.imshow('frame crop',cropFrame)
+    cv2.imshow('frame crop',cropFrame)
     cv2.imshow('bg',fgmask)
     cv2.imshow('bright',brightFrame)
+
+    out.write(brightFrame)
 
     i += 1
 
@@ -76,4 +92,5 @@ while True:
     if k == 27:
         break
 cap.release()
+out.release()
 cv2.destroyAllWindows()
