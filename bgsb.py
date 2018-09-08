@@ -2,12 +2,16 @@ from helperFiles import brightSet
 import numpy as np
 import cv2
 
-path = 'input-video/0-0.mp4'
+#path = 'input-video/2.mp4'
+#path = 'input-video/1.mp4'
+path = 'input-video/0.mp4'
+#path = 'input-video/0-0.mp4'
 #path = 'input-video/0-1.mp4'
+#path = 'input-video/1-0.mp4'
+#path = 'input-video/2-0.mp4'
 
 outPath = 'test.avi'
 
-#path = 'input-video/1-0.mp4'
 
 rad = 41
 cntAreaMin = 30
@@ -15,7 +19,7 @@ cntAreaMin = 30
 #kernel = np.ones((3,3),np.uint8)
 
 #timeRefresh = 2000
-timeRefresh = 200
+timeRefresh = 20
 
 cntList = []
 
@@ -39,8 +43,10 @@ while True:
     cntList = []
     ret, frame = cap.read()
 
-    if frame is None:
+    if ret is None or frame is None:
 	break
+
+    recFrame = frame.copy()
 
     if firstFrame:
 	out = cv2.VideoWriter(outPath, fourcc, 20.0, (frame.shape[1],frame.shape[0]))
@@ -73,18 +79,24 @@ while True:
 		if Y < yMin:
 			yMin = Y
 
-		#cv2.rectangle(frame,(X,Y),(X+W,Y+H),(0,255,0),2)
+		cv2.rectangle(recFrame,(X,Y),(X+W,Y+H),(0,255,0),2)
 		cntList.append(cnt)
 
+    #print 'xMin: ', xMin, '   xMax: ', xMax
     if len(contours) > 0 and xMin < xMax:
-    	cropFrame = frame.copy()[xMin:xMax,yMin:yMax]
+    	cropFrame = frame.copy()[yMin:yMax,xMin:xMax]
+    	#cropFrame = frame.copy()
     else:
-	cropFrame = frame
+	cropFrame = frame.copy()
     #cropFrame = frame.copy()[0:xMax,0:yMax]
    
     brightFrame = brightSet.findMaxBrightness(frame,cropFrame,(xMin,yMin),cntList,41)
 
-    cv2.imshow('frame',frame)
+    if cropFrame.shape[0] <= 0:
+	continue
+
+    #cv2.imshow('frame',frame)
+    cv2.imshow('frame',recFrame)
     cv2.imshow('frame crop',cropFrame)
     cv2.imshow('bg',fgmask)
     cv2.imshow('bright',brightFrame)
