@@ -1,12 +1,16 @@
 import numpy as np
 import cv2
 
-path = 'input-video/fire1.mp4'
+path = input("Video path: ")
 
 cap = cv2.VideoCapture(path)
 
 while(cap.isOpened()):
     ret, frame = cap.read()
+
+    if frame is None:
+        break
+
     cv2.imshow('frame', frame)
     
     frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
