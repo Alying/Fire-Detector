@@ -1,7 +1,9 @@
 import numpy as np
 import cv2
 
-cap = cv2.VideoCapture('fire1.mp4')
+path = 'input-video/fire1.mp4'
+
+cap = cv2.VideoCapture(path)
 
 while(cap.isOpened()):
     ret, frame = cap.read()
