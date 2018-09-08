@@ -5,8 +5,8 @@ prevLoc = None
 prevRad = None
 
 def insideExistingBox(newLoc,cntList,rad):
-        y = newLoc[0]
-	x = newLoc[1]
+        x = newLoc[0]
+	y = newLoc[1]
 	w = 0
 	h = 0
 
@@ -18,10 +18,12 @@ def insideExistingBox(newLoc,cntList,rad):
         return False
 
 
-def findMaxBrightness(frame,cropImage,minTup,cntList,rad):
+def findMaxBrightness(frame,cropImage,minTup,cntList,lockOnTup,rad):
 	global prevLoc
 	global prevRad
 
+
+	lockCnt, lockOnRefresh= lockOnTup
 	xMin,yMin = minTup
 	res = cropImage.copy()
 	res1 = frame.copy()
@@ -46,8 +48,13 @@ def findMaxBrightness(frame,cropImage,minTup,cntList,rad):
 		print 'lock on'
 		cv2.circle(res1, prevLoc, prevRad, (0, 255, 0), 2)
 	'''	
-	cv2.circle(res1, newLoc, rad, (0, 255, 0), 2)
-	prevLoc = newLoc
-	prevRad = rad
+	if lockCnt == 0 or ((lockCnt%lockOnRefresh == 0) and insideExistingBox(newLoc,cntList,rad)):
+		# This is for initalization or if we want to refresh
+		print 'Relocalizing'
+		cv2.circle(res1, newLoc, rad, (0, 255, 0), 2)
+		prevLoc = newLoc
+		prevRad = rad
+	else:
+		cv2.circle(res1, prevLoc, prevRad, (0, 255, 0), 2)
 
 	return res1

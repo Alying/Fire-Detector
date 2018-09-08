@@ -4,11 +4,11 @@ import cv2
 
 #path = 'input-video/2.mp4'
 #path = 'input-video/1.mp4'
-path = 'input-video/0.mp4'
+#path = 'input-video/0.mp4'
 #path = 'input-video/0-0.mp4'
 #path = 'input-video/0-1.mp4'
 #path = 'input-video/1-0.mp4'
-#path = 'input-video/2-0.mp4'
+path = 'input-video/2-0.mp4'
 
 outPath = 'test.avi'
 
@@ -17,6 +17,9 @@ rad = 41
 cntAreaMin = 30
 #cntAreaMin = 20
 #kernel = np.ones((3,3),np.uint8)
+
+lockOnRefresh = 100
+
 
 #timeRefresh = 2000
 timeRefresh = 20
@@ -36,6 +39,7 @@ xMax = float('-inf')
 yMax = float('-inf')
 
 i = 0
+lockCnt = 0
 
 firstFrame = True
 
@@ -45,7 +49,7 @@ while True:
 
     if ret is None or frame is None:
 	break
-
+    #print lockCnt
     recFrame = frame.copy()
 
     if firstFrame:
@@ -90,7 +94,7 @@ while True:
 	cropFrame = frame.copy()
     #cropFrame = frame.copy()[0:xMax,0:yMax]
    
-    brightFrame = brightSet.findMaxBrightness(frame,cropFrame,(xMin,yMin),cntList,41)
+    brightFrame = brightSet.findMaxBrightness(frame,cropFrame,(xMin,yMin),cntList,(lockCnt,lockOnRefresh),41)
 
     if cropFrame.shape[0] <= 0:
 	continue
@@ -104,6 +108,8 @@ while True:
     out.write(brightFrame)
 
     i += 1
+    lockCnt += 1
+
 
     k = cv2.waitKey(30) & 0xff
     if k == 27:
