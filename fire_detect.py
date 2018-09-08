@@ -22,12 +22,21 @@ while True:
      
     output = cv2.bitwise_and(frame, hsv, mask=mask)
     no_red = cv2.countNonZero(mask)
+    no_black = cv2.countNonZero(cv2.bitwise_not(no_red))
+
+    cv2.imshow("mask", mask)
     cv2.imshow("output", output)
-    #print("output:", frame)
+    
+    total = no_black + no_red#frame.size
+    percentage = float(no_red)/total
+    print(no_red)
+    print(total)
+    print("{0:.0f}%".format(percentage*100))
+
     if int(no_red) > 20000:
         print ('Fire detected')
-    #print(int(no_red))
-   #print("output:".format(mask))
+        cv2.waitKey(3000)
+
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
  
