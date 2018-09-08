@@ -1,13 +1,47 @@
 import numpy as np
 import cv2
 
-def findMaxBrightness(image, rad):
+prevLoc = None
+prevRad = None
+
+def insideExistingBox(newLoc,cntList,rad):
+        x = newLoc[0]
+	y = newLoc[1]
+	w = 0
+	h = 0
+
+        for cntCmp in cntList:
+                xCmp,yCmp,wCmp,hCmp = cv2.boundingRect(cntCmp)
+                if x > xCmp and y > yCmp and x+w < xCmp+wCmp and y+h < yCmp+hCmp:
+                        return True
+
+        return False
+
+
+def findMaxBrightness(frame,image,minTup,cntList,rad):
+	global prevLoc
+	global prevRad
+
+	xMin,yMin = minTup
 	res = image.copy()
+	res1 = frame.copy()
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 	gray = cv2.GaussianBlur(gray, (rad, rad), 0)
 	(minVal, maxVal, minLoc, maxLoc) = cv2.minMaxLoc(gray)
 	#image = orig.copy()
-	cv2.circle(res, maxLoc, rad, (255, 0, 0), 2)
+	#cv2.circle(res, maxLoc, rad, (255, 0, 0), 2)
+	if not (xMin == float("inf") or yMin == float("inf")):
+        	newLoc =  (int(maxLoc[0]+yMin),int(maxLoc[1]+xMin))
+	else:
+		newLoc = maxLoc
 
-	return res
+	if insideExistingBox(newLoc,cntList,rad):
+		cv2.circle(res1, newLoc, rad, (0, 255, 0), 2)
+		prevLoc = newLoc
+		prevRad = rad
+	elif prevLoc is not None and prevRad is not None:
+		cv2.circle(res1, prevLoc, prevRad, (0, 255, 0), 2)
+		
+
+	return res1
