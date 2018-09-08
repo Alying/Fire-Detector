@@ -2,8 +2,8 @@ from helperFiles import brightSet
 import numpy as np
 import cv2
 
-#path = 'input-video/0-0.mp4'
-path = 'input-video/0-1.mp4'
+path = 'input-video/0-0.mp4'
+#path = 'input-video/0-1.mp4'
 
 outPath = 'test.avi'
 
@@ -16,6 +16,10 @@ cntAreaMin = 30
 
 #timeRefresh = 2000
 timeRefresh = 200
+
+cntList = []
+
+
 
 cap = cv2.VideoCapture(path)
 fgbg = cv2.createBackgroundSubtractorMOG2()
@@ -32,6 +36,7 @@ i = 0
 firstFrame = True
 
 while True:
+    cntList = []
     ret, frame = cap.read()
 
     if frame is None:
@@ -69,7 +74,7 @@ while True:
 			yMin = Y
 
 		#cv2.rectangle(frame,(X,Y),(X+W,Y+H),(0,255,0),2)
-
+		cntList.append(cnt)
 
     if len(contours) > 0 and xMin < xMax:
     	cropFrame = frame.copy()[xMin:xMax,yMin:yMax]
@@ -77,7 +82,7 @@ while True:
 	cropFrame = frame
     #cropFrame = frame.copy()[0:xMax,0:yMax]
    
-    brightFrame = brightSet.findMaxBrightness(frame,cropFrame,(xMin,yMin),41)
+    brightFrame = brightSet.findMaxBrightness(frame,cropFrame,(xMin,yMin),cntList,41)
 
     cv2.imshow('frame',frame)
     cv2.imshow('frame crop',cropFrame)
