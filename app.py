@@ -1,5 +1,6 @@
+import fire_detect
 
-# Download the helper library from https://www.twilio.com/docs/python/install
+#Download the helper library from https://www.twilio.com/docs/python/install
 from twilio.rest import Client
 from flask import Flask
 app = Flask(__name__)
@@ -21,6 +22,10 @@ def send_text():
     print(message.body)
     return message.body
 
+@app.route("/")
+def fire_msg():
+    fire_detect.fire_info()
+    return "Info received"
 
 if __name__ == "__main__":
     app.run(debug=True)
