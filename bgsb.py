@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 #path = 'input-video/0-0.mp4'
-path = 'input-video/fire2.mp4'
+path = 'input-video/1-0.mp4'
 #path = 'input-video/0-1.mp4'
 
 rad = 41
@@ -13,7 +13,7 @@ fgbg = cv2.createBackgroundSubtractorMOG2()
 while(1):
     ret, frame = cap.read()
 
-    if ret is None:
+    if frame is None:
 	break
 
     fgmask = fgbg.apply(frame)
