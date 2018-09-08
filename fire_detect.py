@@ -1,3 +1,4 @@
+import twilio_sms
 import cv2
 import numpy as np
 import time 
@@ -50,7 +51,8 @@ def fire_info():
         print("Size: {0:.0f}%".format(percentage * 100))
 
         if int(no_red) > 20000: #approx. greater than 10%
-            print ('Warning! Possible wildfire starting.')
+            twilio_sms.send_text('Warning: possible wildfire near you!')
+            break
             #cv2.waitKey(3000)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
