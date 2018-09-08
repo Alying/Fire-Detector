@@ -3,7 +3,8 @@ import numpy as np
 import cv2
 
 #path = 'input-video/0-0.mp4'
-path = 'input-video/0-1.mp4'
+path = 'input-video/fire2.mp4'
+#path = 'input-video/0-1.mp4'
 
 rad = 41
 
