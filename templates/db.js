@@ -1,10 +1,17 @@
+console.log("test1");
+
 const client = stitch.Stitch.initializeDefaultAppClient('firevideosdb-yrpwy');
 const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('VideosDB');
 
-client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user => db.collection('VideosCollection').find().toArray());
+console.log("test2");
 
+client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user => {
+    console.log(user);
+    db.collection('VideosCollection').find().toArray()
+});
 
 function addToDB(){
+    console.log("test3");
     const id = document.getElementById("id").value;
     const url = document.getElementById("url").value;
     const videostream = document.getElementById("videostream").value;
@@ -19,7 +26,8 @@ function getAllPosts(){
 }
 
 function updateToDB() {
-     const vid_id = document.getElementById("id").value;
+    console.log("test3");     
+    const vid_id = document.getElementById("id").value;
     const vid_url = document.getElementById("url").value;
     const vid_videostream = document.getElementById("videostream").value;
 
@@ -27,7 +35,7 @@ function updateToDB() {
 
 
     //client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user => 
-    db.collection('VideosDB').updateOne({id: vid_id}, {$set:{id: vid_id, url:vid_url, videostream:vid_videostream}}, {upsert:true})
+    db.collection('VideosCollection').updateOne({id: vid_id}, {$set:{id: vid_id, url:vid_url, videostream:vid_videostream}}, {upsert:true})
     .then(() => 
     db.collection('VideosCollection').find().asArray()
   ).then(docs => {
