@@ -1,4 +1,5 @@
-body{
+.btn-secondary, #video, body nav{
+    text-align:center;
 }
 .row1{
     display:inline-block;
