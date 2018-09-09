@@ -2,19 +2,24 @@ import twilio_sms
 import cv2
 import numpy as np
 import time 
+import app
+from flask import Flask, request, render_template
 
-def fire_info():
-    vid = input("Video number: ")
+#@app.route('/fire/')
+def fire_info(vid_no):
+    #print(vid_no, type(vid_no))
+    vid = int(vid_no) 
+    #input("Video number: ")
 
-    if vid == 1:
-        path = 'input-video/0-1.mp4' 
-    elif vid == 2:
-        path = 'input-video/1-0.mp4'
+    vid_options = {1: 'input-video/0-1.mp4',
+                   2: 'input-video/1-0.mp4',
+                   3: 'input-video/2-0.mp4'}    
         
+    path = vid_options[vid]
     cap = cv2.VideoCapture(path)
 
     start = time.time()
-     
+    text_sent = False
     while True:
         (grabbed, frame) = cap.read()
         if not grabbed:
@@ -50,14 +55,14 @@ def fire_info():
         #print(total)
         print("Size: {0:.0f}%".format(percentage * 100))
 
-        if int(no_red) > 20000: #approx. greater than 10%
+        if int(no_red) > 20000 and not text_sent: #approx. greater than 10%
+            print("test")
             twilio_sms.send_text('Warning: possible wildfire near you!')
-            break
+            text_sent = True
             #cv2.waitKey(3000)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-     
     cv2.destroyAllWindows()
     cap.release()
 
