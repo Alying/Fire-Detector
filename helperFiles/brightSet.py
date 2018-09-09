@@ -9,6 +9,8 @@ sizeUpdateInterval = 5000
 
 abnormalConst = 4.0
 
+picSaveCount = 0
+
 abNormInital = True
 
 def abnormalRateChange(count,currSize):
@@ -68,9 +70,10 @@ def insideExistingBox(newLoc,cntList,rad):
         return False
 
 
-def findMaxBrightness(frame,cropImage,minTup,cntList,lockOnTup,rad):
+def findMaxBrightness(frame,cropImage,minTup,cntList,lockOnTup,rad,picOn):
 	global prevLoc
 	global prevRad
+	global picSaveCount
 
 
 	lockCnt, lockOnRefresh= lockOnTup
@@ -110,6 +113,10 @@ def findMaxBrightness(frame,cropImage,minTup,cntList,lockOnTup,rad):
 		#cv2.circle(res1, prevLoc, prevRad, (0, 255, 0), 2)
 		cv2.rectangle(res1,(prevLoc[0]-rad,prevLoc[1]-rad),(prevLoc[0]+rad,prevLoc[1]+rad),(0,255,0),2)
 
+	if picOn:
+		saveStr = './datasetGen/' + str(picSaveCount)+'.png'
+		cv2.imwrite(saveStr, cropFrame)
+		picSaveCount += 1
 
 	flameArea = analyzeSize(cropFrame)
 	textWrite = 'Fire size: '+str(flameArea)

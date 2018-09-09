@@ -94,7 +94,7 @@ def bgsb_info():
 		cropFrame = frame.copy()
 	    #cropFrame = frame.copy()[0:xMax,0:yMax]
 	   
-	    brightFrame = brightSet.findMaxBrightness(frame,cropFrame,(xMin,yMin),cntList,(lockCnt,lockOnRefresh),41)
+	    brightFrame = brightSet.findMaxBrightness(frame,cropFrame,(xMin,yMin),cntList,(lockCnt,lockOnRefresh),41,False)
 
 	    if cropFrame.shape[0] <= 0:
 		continue
