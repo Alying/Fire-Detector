@@ -4,6 +4,56 @@ import cv2
 prevLoc = None
 prevRad = None
 
+prevFlameSize = 0
+sizeUpdateInterval = 5000
+
+abnormalConst = 4.0
+
+abNormInital = True
+
+def abnormalRateChange(count,currSize):
+	global abNormInital
+	global prevFlameSize
+	# Compares size from past to the current value
+
+	if abNormInital:
+		# To initalize the prevFlameSize value
+		prevFlameSize = currSize
+		abNormInital = False
+		return False
+
+
+	# Abnormal decrease (probably found actual fire)
+	if float(prevFlameSize)/float(currSize) > 6.0:
+		print 'Adjusting referernce size'
+		prevFlameSize = currSize
+		return False
+
+	if float(currSize)/float(prevFlameSize) > abnormalConst:
+		# Fire growth is abnormal, danger of wild fire is alerted
+		print 'currSize: ', currSize, '  prevFlameSize: ', prevFlameSize
+		return True
+
+	if count%sizeUpdateInterval == 0:
+		print 'Updating flame'
+		prevFlameSize = currChange
+
+	return False
+
+def analyzeSize(frame):
+	gray_frame = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+	ret,thresh = cv2.threshold(gray_frame,127,255,cv2.THRESH_BINARY)
+	_,contours,hierarchy = cv2.findContours(thresh, 1, 2)
+
+	maxSize = float('-inf')
+	for cnt in contours:
+		if cv2.contourArea(cnt) > maxSize:
+			maxSize = cv2.contourArea(cnt)
+
+	cv2.imshow('thresh',thresh)
+
+	return maxSize
+
 def insideExistingBox(newLoc,cntList,rad):
         x = newLoc[0]
 	y = newLoc[1]
@@ -38,12 +88,20 @@ def findMaxBrightness(frame,cropImage,minTup,cntList,lockOnTup,rad):
 	else:
 		newLoc = maxLoc
 
-	'''
-	if insideExistingBox(newLoc,cntList,rad):
-		print 'inside'
-		cv2.circle(res1, newLoc, rad, (0, 255, 0), 2)
+	if lockCnt == 0 or ((lockCnt%lockOnRefresh == 0) and insideExistingBox(newLoc,cntList,rad)):
+		# This is for initalization or if we want to refresh
+		print 'Relocalizing'
+		#cv2.circle(res1, newLoc, rad, (0, 255, 0), 2)
+
+		if rad > newLoc[1] or rad > newLoc[0] :
+			rad = min(newLoc[1],newLoc[0])
+	
+		
+		cropFrame = res1.copy()[newLoc[1]-rad:newLoc[1]+rad, newLoc[0]-rad:newLoc[0]+rad]
+		cv2.rectangle(res1,(newLoc[0]-rad,newLoc[1]-rad),(newLoc[0]+rad,newLoc[1]+rad),(0,255,0),2)
 		prevLoc = newLoc
 		prevRad = rad
+<<<<<<< HEAD
 	elif prevLoc is not None and prevRad is not None:
 		print 'lock on'
 		cv2.circle(res1, prevLoc, prevRad, (0, 255, 0), 2)
@@ -56,5 +114,28 @@ def findMaxBrightness(frame,cropImage,minTup,cntList,lockOnTup,rad):
 		prevRad = rad
 	else:
 		cv2.circle(res1, prevLoc, prevRad, (0, 255, 0), 2)
+=======
+	else:
+
+		if rad > prevLoc[1] or rad > prevLoc[0]:
+			rad = min(prevLoc[1],prevLoc[0])
+
+		cropFrame = res1.copy()[prevLoc[1]-rad:prevLoc[1]+rad, prevLoc[0]-rad:prevLoc[0]+rad]
+		#cv2.circle(res1, prevLoc, prevRad, (0, 255, 0), 2)
+		cv2.rectangle(res1,(prevLoc[0]-rad,prevLoc[1]-rad),(prevLoc[0]+rad,prevLoc[1]+rad),(0,255,0),2)
+
+
+	flameArea = analyzeSize(cropFrame)
+	textWrite = 'Fire size: '+str(flameArea)
+	font = cv2.FONT_HERSHEY_SIMPLEX
+	cv2.putText(res1,textWrite,(10,40),font,1,(255,255,255),1,cv2.LINE_AA)
+
+
+	# Check to see if the fire in danger of becoming wild fire
+	if abnormalRateChange(lockCnt,flameArea):
+		print 'WARNING: CURRENT FIRE IS AT RISK OF BECOMING A WILD FIRE!'
+
+
+>>>>>>> d79c2dca7e6e0b895c6c67bca951c4609fed57a3
 
 	return res1

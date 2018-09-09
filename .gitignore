@@ -111,3 +111,4 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+*result/0.avi
