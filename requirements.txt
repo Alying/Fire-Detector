@@ -1,2 +1,4 @@
 Flask>=0.12
 twilio>=6.16
+pymongo==3.4
+requests==2.18.4
