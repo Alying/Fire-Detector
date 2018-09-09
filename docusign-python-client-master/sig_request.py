@@ -61,11 +61,17 @@ text_tab = docusign.Text()
 text_tab.tab_label = "Basic"
 text_tab.value = "Fire Goodwill Message"
 
+number_tab = docusign.Number()
+number_tab.tab_label = "MonitorPay"
+number_tab.value = 0.19
+
+
 
 
 tabs = docusign.Tabs()
-tabs.sign_here_tabs = [sign_here]
+# tabs.sign_here_tabs = [sign_here]
 tabs.text_tabs = [text_tab]
+tabs.number_tabs = [number_tab]
 t_role.tabs = tabs
 
 
