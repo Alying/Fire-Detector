@@ -107,9 +107,9 @@ def bgsb_info(vid_no):
             continue
 
         #cv2.imshow('frame',frame)
-        cv2.imshow('frame',recFrame)
-        cv2.imshow('frame crop',cropFrame)
-        cv2.imshow('bg',fgmask)
+        #cv2.imshow('frame',recFrame)
+        #cv2.imshow('frame crop',cropFrame)
+        #cv2.imshow('bg',fgmask)
         cv2.imshow('bright',brightFrame)
 
         out.write(brightFrame)
