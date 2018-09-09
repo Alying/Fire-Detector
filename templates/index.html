@@ -3,30 +3,72 @@
 <head>   
     <meta charset="utf-8"/>
     <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.8/stitch.js"></script>
+    <script>
+        function replaceSrc(id) {
+            var fullUrl;
+            var numVid;
+            switch(id) {
+                case "vid1":
+                    fullUrl = "static/0-0.mp4";
+                    numVid = 1;
+                    break;
+                case "vid2":
+                    fullUrl = 'static/1-0.mp4';
+                    numVid = 2;
+                    break;
+                case "vid3":
+                    fullUrl = 'static/2-0.mp4';
+                    numVid = 3;
+                    break;
+                case "vid4":
+                    fullUrl = 'static/3.mp4';
+                    numVid = 4;
+                    break;
+                default:
+                    fullUrl = "https://www.youtube.com/embed/TNEXZVKl5Vs";
+            }
+            document.getElementById("testVid").src = fullUrl;
+            window.location.href='http://localhost:5000/fire/' + numVid;
+        }
+    </script>
+    <!--<script>
+        document.getElementById('testVid').src = "https://www.youtube.com/embed/?vidID";
+    </script>-->
 </head>
 <body>
-    <iframe class="row1"  width="560" height="315" src="https://www.youtube.com/embed/TNEXZVKl5Vs" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
- 
-    <iframe class="row1" width="560" height="315" src="https://www.youtube.com/embed/oiD02JNZY1Y" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>    
-
     <h4 class="row1">Fire Forecast</h4>
 
-    <iframe class="row2" width="560" height="315" src="https://www.youtube.com/embed/8L_qJzi93zo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    
-<iframe width="560" height="315" src="https://www.youtube.com/embed/61Z4gIQ_y7s" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <div style="none" id="video">
+        <iframe id="testVid" class="row1"  width="760" height="455" src="https://www.youtube.com/embed/TNEXZVKl5Vs" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
 
-       <form class="row1" action="http://localhost:5000/fire/1">
+    <!--<iframe class="row1" width="560" height="315" src="https://www.youtube.com/embed/oiD02JNZY1Y" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>    -->
+    <!--<iframe class="row2" width="560" height="315" src="https://www.youtube.com/embed/8L_qJzi93zo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
+    
+<!--<iframe width="560" height="315" src="https://www.youtube.com/embed/61Z4gIQ_y7s" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
+
+        <button id ="vid1" onclick=replaceSrc(this.id)>Video 1</button>
+        <br>
+        <button id ="vid2" onclick=replaceSrc(this.id)>Video 2</button>
+        <br>
+        <button id ="vid3" onclick=replaceSrc(this.id)>Video 3</button>
+        <br>
+        <button id ="vid4" onclick=replaceSrc(this.id)>Video 4</button>
+        <br>
+
+
+       <!--<form class="row1" action="http://localhost:5000/fire/1" id="vid1">
         <input type = "submit" value = "Fire Video 1" />
        </form>
-       <form class="row1" action="http://localhost:5000/fire/2">
+       <form class="row1" action="http://localhost:5000/fire/2" id="vid2">
         <input type = "submit" value = "Fire Video 2" />
        </form>
-        <form class="row1" action="http://localhost:5000/fire/3">
+        <form class="row1" action="http://localhost:5000/fire/3" id="vid3">
         <input type = "submit" value = "Fire Video 3" />
         </form>
-        <form class="row1" action="http://localhost:5000/fire/4">
+        <form class="row1" action="http://localhost:5000/fire/4" id="vid4">
         <input type="submit" value = "Fire Video 4" />
-        </form>
+        </form>-->
 
         ID: <input type="text" id="id"><br>
         URL: <input type="text" id="url"><br>

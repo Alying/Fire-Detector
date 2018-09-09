@@ -1,6 +1,7 @@
 *.pyc
 *.swp
 datasetGen/*
+ngrok
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

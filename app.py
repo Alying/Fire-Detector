@@ -1,5 +1,6 @@
 import twilio_sms
 import fire_detect
+import bgsb
 
 
 #Download the helper library from https://www.twilio.com/docs/python/install
@@ -10,12 +11,13 @@ app = Flask(__name__)
 @app.route("/sms/")
 def twilio_fcn():
     twilio_sms.send_text('Warning: possible wildfire near you!')
-    return "Twilio text"
+    return render_template('index.html')
 
 @app.route("/fire/<vid_no>", methods=['GET', 'POST'])
 def fire_msg(vid_no):
-    fire_detect.fire_info(vid_no)
-    return "Info received"
+    # fire_detect.fire_info(vid_no)
+    bgsb.bgsb_info(vid_no)
+    return render_template('index.html')
 
 @app.route("/agreement/")
 def docusign_agree():  
