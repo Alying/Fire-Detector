@@ -27,7 +27,7 @@ lockOnRefresh = 100
 timeRefresh = 20
 
 def bgsb_info(vid_no): 
-    vid_options = {1: 'static/0-0.mp4',
+    vid_options = {1: 'static/0-1.mp4',
                    2: 'static/1-0.mp4',
                    3: 'static/2-0.mp4',
                    4: 'static/3.mp4'}

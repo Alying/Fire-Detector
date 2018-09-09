@@ -13,7 +13,7 @@ def send_text(in_body):
         .create(
                 body=in_body,
                 from_='+15172450874',
-                to='+15174025378'
+                to='+14088322687'
                 )
 
     print(message.body)

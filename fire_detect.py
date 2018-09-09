@@ -11,10 +11,10 @@ def fire_info(vid_no):
     vid = int(vid_no) 
     #input("Video number: ")
 
-    vid_options = {1: 'input-video/0-1.mp4',
-                   2: 'input-video/1-0.mp4',
-                   3: 'input-video/2-0.mp4',
-                   4: 'input-video/3.mp4'}    
+    vid_options = {1: 'static/0-1.mp4',
+                   2: 'static/1-0.mp4',
+                   3: 'static/2-0.mp4',
+                   4: 'static/3.mp4'}    
         
     path = vid_options[vid]
     cap = cv2.VideoCapture(path)
