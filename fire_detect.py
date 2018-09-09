@@ -13,7 +13,8 @@ def fire_info(vid_no):
 
     vid_options = {1: 'input-video/0-1.mp4',
                    2: 'input-video/1-0.mp4',
-                   3: 'input-video/2-0.mp4'}    
+                   3: 'input-video/2-0.mp4',
+                   4: 'input-video/3.mp4'}    
         
     path = vid_options[vid]
     cap = cv2.VideoCapture(path)
@@ -55,7 +56,7 @@ def fire_info(vid_no):
         #print(total)
         print("Size: {0:.0f}%".format(percentage * 100))
 
-        if int(no_red) > 20000 and not text_sent: #approx. greater than 10%
+        if int(no_red) > 5 and not text_sent: #approx. greater than 10%
             print("test")
             twilio_sms.send_text('Warning: possible wildfire near you!')
             text_sent = True
