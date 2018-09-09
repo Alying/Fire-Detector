@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>    
+<head>   
+    <meta charset="utf-8"/>
+    <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.8/stitch.js"></script>
+    <script src="db.js"></script> 
 </head>
 <body>
     <iframe class="row1"  width="560" height="315" src="https://www.youtube.com/embed/TNEXZVKl5Vs" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -22,6 +25,12 @@
      <form action="http://localhost:5000/fire/3">
         <input type = "submit" value = "Fire Video 3" />
     </form>
-    
+
+    <form>        
+        ID: <input type="text" id="id"><br>
+        URL: <input type="text" id="url"><br>
+        Type of video-stream: <input type="text" id="videostream"<br>
+        <input type="submit" onclick="updateToDB()" value = "Submit">
+    </form>    
 </body>
 </html> 
