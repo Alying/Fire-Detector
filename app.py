@@ -1,5 +1,7 @@
 import twilio_sms
 import fire_detect
+import docusign_tools.sig_request
+
 
 #Download the helper library from https://www.twilio.com/docs/python/install
 from twilio.rest import Client
@@ -19,6 +21,14 @@ def fire_msg(vid_no):
 @app.route("/")
 def home():
     return render_template('index.html')
+
+
+@app.route("/agreement/")
+def docusign_agree():
+    sig_request()
+    return "Check your email for fire-monitoring subscription agreement."
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
