@@ -5,11 +5,8 @@ import cv2
 #path = 'input-video/2.mp4'
 #path = 'input-video/1.mp4'
 #path = 'input-video/0.mp4'
-<<<<<<< HEAD
 #path = 'input-video/0-0.mp4'
-=======
 path = 'input-video/0-0.mp4'
->>>>>>> d79c2dca7e6e0b895c6c67bca951c4609fed57a3
 #path = 'input-video/0-1.mp4'
 #path = 'input-video/1-0.mp4'
 path = 'input-video/2-0.mp4'

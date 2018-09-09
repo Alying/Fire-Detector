@@ -101,20 +101,6 @@ def findMaxBrightness(frame,cropImage,minTup,cntList,lockOnTup,rad):
 		cv2.rectangle(res1,(newLoc[0]-rad,newLoc[1]-rad),(newLoc[0]+rad,newLoc[1]+rad),(0,255,0),2)
 		prevLoc = newLoc
 		prevRad = rad
-<<<<<<< HEAD
-	elif prevLoc is not None and prevRad is not None:
-		print 'lock on'
-		cv2.circle(res1, prevLoc, prevRad, (0, 255, 0), 2)
-	'''	
-	if lockCnt == 0 or ((lockCnt%lockOnRefresh == 0) and insideExistingBox(newLoc,cntList,rad)):
-		# This is for initalization or if we want to refresh
-		print 'Relocalizing'
-		cv2.circle(res1, newLoc, rad, (0, 255, 0), 2)
-		prevLoc = newLoc
-		prevRad = rad
-	else:
-		cv2.circle(res1, prevLoc, prevRad, (0, 255, 0), 2)
-=======
 	else:
 
 		if rad > prevLoc[1] or rad > prevLoc[0]:
@@ -134,8 +120,5 @@ def findMaxBrightness(frame,cropImage,minTup,cntList,lockOnTup,rad):
 	# Check to see if the fire in danger of becoming wild fire
 	if abnormalRateChange(lockCnt,flameArea):
 		print 'WARNING: CURRENT FIRE IS AT RISK OF BECOMING A WILD FIRE!'
-
-
->>>>>>> d79c2dca7e6e0b895c6c67bca951c4609fed57a3
 
 	return res1
