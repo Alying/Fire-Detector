@@ -63,7 +63,7 @@ text_tab.value = "Fire Goodwill Message"
 
 number_tab = docusign.Number()
 number_tab.tab_label = "MonitorPay"
-number_tab.value = 0.19
+number_tab.value = 5.99
 
 
 
