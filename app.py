@@ -15,8 +15,10 @@ def twilio_fcn():
 
 @app.route("/fire/<vid_no>", methods=['GET', 'POST'])
 def fire_msg(vid_no):
-    # fire_detect.fire_info(vid_no)
-    bgsb.bgsb_info(vid_no)
+    if int(vid_no) % 2 == 0:
+        fire_detect.fire_info(vid_no)
+    else:
+        bgsb.bgsb_info(vid_no)
     return render_template('index.html')
 
 @app.route("/agreement/")
